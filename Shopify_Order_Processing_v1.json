@@ -1,0 +1,172 @@
+{
+  "name": "Shopify-Order-Processing-v1",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "40103bae-dd0f-407a-ae53-6ed139ac85fc",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b6ebf287-21ef-42f7-9da3-7c39584924e0",
+      "name": "Webhook",
+      "webhookId": "40103bae-dd0f-407a-ae53-6ed139ac85fc"
+    },
+    {
+      "parameters": {
+        "toRecipients": "={{$node[\"Webhook\"].json[\"email\"]}}",
+        "subject": "=Orderbevestiging #{{$node[\"Webhook\"].json[\"number\"]}} - Bedankt voor je bestelling!",
+        "bodyContent": "=<h2>Bedankt voor je bestelling!</h2>\n\n<p>Beste {{$node[\"Webhook\"].json[\"customer\"][\"first_name\"]}},</p>\n\n<p>We hebben je bestelling ontvangen en bevestigen hierbij de details:</p>\n\n<h3>Orderdetails:</h3>\n<ul>\n<li><strong>Ordernummer:</strong> #{{$node[\"Webhook\"].json[\"number\"]}}</li>\n<li><strong>Totaalbedrag:</strong> €{{$node[\"Webhook\"].json[\"total_price\"]}}</li>\n<li><strong>Betaalstatus:</strong> {{$node[\"Webhook\"].json[\"financial_status\"]}}</li>\n</ul>\n\n<h3>Bestelde producten:</h3>\n<p>{{$node[\"Webhook\"].json[\"line_items\"][0][\"title\"]}} - €{{$node[\"Webhook\"].json[\"line_items\"][0][\"price\"]}}</p>\n\n<p>Je bestelling wordt zo spoedig mogelijk verwerkt en verzonden.</p>\n\n<p>Met vriendelijke groet,<br>Het byReLexa Team</p>",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "f37ef42d-c956-4b65-ae40-a5ad99157323",
+      "name": "Microsoft Outlook",
+      "webhookId": "52d2e761-0a6f-44b1-a3db-01683abed0f8",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "NBgVEOVxILm7Hx5G",
+          "name": "Microsoft Outlook account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "id": 12345678901,
+          "email": "klant@example.com",
+          "created_at": "2025-07-13T14:30:00+02:00",
+          "updated_at": "2025-07-13T14:30:00+02:00",
+          "number": 1001,
+          "name": "#1001",
+          "order_number": 1001,
+          "financial_status": "paid",
+          "fulfillment_status": null,
+          "total_price": "149.95",
+          "subtotal_price": "124.95",
+          "total_tax": "25.00",
+          "currency": "EUR",
+          "confirmed": true,
+          "order_status_url": "https://zc340-09.myshopify.com/orders/abc123",
+          "customer": {
+            "id": 98765432101,
+            "email": "klant@example.com",
+            "first_name": "Jan",
+            "last_name": "Janssen",
+            "phone": "+31612345678",
+            "created_at": "2025-07-13T14:30:00+02:00"
+          },
+          "billing_address": {
+            "first_name": "Jan",
+            "last_name": "Janssen",
+            "address1": "Hoofdstraat 123",
+            "address2": "",
+            "city": "Amsterdam",
+            "province": "Noord-Holland",
+            "country": "Netherlands",
+            "zip": "1012 AB",
+            "phone": "+31612345678"
+          },
+          "shipping_address": {
+            "first_name": "Jan",
+            "last_name": "Janssen",
+            "address1": "Hoofdstraat 123",
+            "address2": "",
+            "city": "Amsterdam",
+            "province": "Noord-Holland",
+            "country": "Netherlands",
+            "zip": "1012 AB",
+            "phone": "+31612345678"
+          },
+          "line_items": [
+            {
+              "id": 13579246801,
+              "variant_id": 24681357901,
+              "title": "Premium Bluetooth Koptelefoon",
+              "quantity": 1,
+              "price": "124.95",
+              "sku": "BT-KOPTELEFOON-001",
+              "vendor": "TechGear",
+              "product_id": 11223344556,
+              "variant_title": "Zwart",
+              "fulfillment_service": "manual",
+              "fulfillment_status": null,
+              "requires_shipping": true,
+              "taxable": true,
+              "gift_card": false
+            }
+          ],
+          "shipping_lines": [
+            {
+              "id": 98765432109,
+              "title": "PostNL Standaard",
+              "price": "6.95",
+              "code": "POSTNL_STANDARD",
+              "source": "shopify",
+              "carrier_identifier": "postnl",
+              "delivery_category": null
+            }
+          ],
+          "tax_lines": [
+            {
+              "title": "BTW",
+              "price": "25.00",
+              "rate": 0.21
+            }
+          ],
+          "payment_gateway_names": [
+            "ideal"
+          ],
+          "processing_method": "direct",
+          "checkout_token": "abc123def456ghi789",
+          "gateway": "ideal",
+          "landing_site": "/",
+          "referring_site": "",
+          "source_identifier": null,
+          "source_url": null,
+          "tags": "automation-test",
+          "note": "Graag verpakken als cadeau",
+          "note_attributes": [],
+          "checkout_id": 99887766554,
+          "order_token": "xyz789uvw456rst123"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Microsoft Outlook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "778b3901-8a46-4d90-be9b-925f834ad806",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a0e9b02ee2a789e7886a7c1910ad5747b24d4200dedd3c92cb2ecbd30c7ad925"
+  },
+  "id": "xEjayDw9qCwQ392G",
+  "tags": []
+}
